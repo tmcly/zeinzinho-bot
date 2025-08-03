@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 
 import com.zeinzinho.zeinzinho_bot.application.listener.MessageListener;
 import com.zeinzinho.zeinzinho_bot.application.listener.SlashCommandListener;
-import com.zeinzinho.zeinzinho_bot.application.service.LinkPrefixServiceImpl;
-import com.zeinzinho.zeinzinho_bot.domain.service.LinkPrefixService;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -26,7 +24,11 @@ public class DiscordConfig {
   JDA discordJdaClient(MessageListener messageListener, SlashCommandListener slashCommandListener)
       throws LoginException {
     JDA discordJdaClient = JDABuilder.createDefault(botToken)
-        .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+        .enableIntents(
+            GatewayIntent.GUILD_MEMBERS, // Para acessar membros
+            GatewayIntent.MESSAGE_CONTENT, // Para ler mensagens
+            GatewayIntent.GUILD_MESSAGES // Para receber mensagens
+        )
         .build();
 
     discordJdaClient.addEventListener(messageListener, slashCommandListener);
@@ -36,8 +38,9 @@ public class DiscordConfig {
       discordJdaClient.getGuildById("377206458699481090")
           .updateCommands()
           .addCommands(
-              Commands.slash("prefix", "Converte link do X/Twitter para fxtwitter embed")
-                  .addOption(net.dv8tion.jda.api.interactions.commands.OptionType.STRING, "url", "Tweet URL", true)
+              Commands.slash("prefix", "Converte links para formato embed")
+                  .addOption(net.dv8tion.jda.api.interactions.commands.OptionType.STRING, "url", "URL do post/video",
+                      true)
                   .addOption(net.dv8tion.jda.api.interactions.commands.OptionType.STRING, "mentions",
                       "Mentions (@user, @everyone, etc...)", false))
           .queue();
@@ -47,10 +50,4 @@ public class DiscordConfig {
 
     return discordJdaClient;
   }
-
-  @Bean
-  LinkPrefixService linkPrefixService() {
-    return new LinkPrefixServiceImpl();
-  }
-
 }

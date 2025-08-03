@@ -23,9 +23,8 @@ public class SlashCommandListener extends ListenerAdapter {
         LinkPrefixModel prefixedLink = linkPrefixService.generatePrefixedLink(url);
         String response = prefixedLink.getPrefixedUrl();
 
-        // Adiciona menções se houver
-        if (event.getOption("marcacoes") != null) {
-          String mentions = event.getOption("marcacoes").getAsString();
+        if (event.getOption("mentions") != null) {
+          String mentions = event.getOption("mentions").getAsString();
           response = mentions + " " + response;
         }
 
