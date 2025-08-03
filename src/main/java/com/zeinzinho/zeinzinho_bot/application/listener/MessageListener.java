@@ -19,5 +19,15 @@ public class MessageListener extends ListenerAdapter {
     if (messageContent.equalsIgnoreCase("!ping")) {
       event.getChannel().sendMessage("Pong!").queue();
     }
+
+    if (messageContent.equalsIgnoreCase("!help")) {
+      event.getChannel().sendMessage(
+          "Um bot que nem o @GabrielZein, linguiçudo e faz de tudo um pouco, no momento converte links de vídeos das principais plataformas para versões Embed pra dentro do discord, use e abuse a vontade como se fosse o @GabrielZein.")
+          .queue();
+    }
+
+    if (messageContent.contains("normal")) {
+      event.getChannel().sendMessage("E o gay?").queue();
+    }
   }
 }
