@@ -1,5 +1,6 @@
 package com.zeinzinho.zeinzinho_bot.application.listener;
 
+import java.util.concurrent.ThreadLocalRandom;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -22,12 +23,22 @@ public class MessageListener extends ListenerAdapter {
 
     if (messageContent.equalsIgnoreCase("!help")) {
       event.getChannel().sendMessage(
-          "Um bot que nem o @GabrielZein, linguiçudo e faz de tudo um pouco, no momento converte links de vídeos das principais plataformas para versões Embed pra dentro do discord, use e abuse a vontade como se fosse o @GabrielZein.")
+          "Um bot que nem o GabrielZein, linguiçudo e faz de tudo um pouco, no momento converte links de vídeos das principais plataformas para versões Embed pra dentro do discord, use e abuse a vontade como se fosse o GabrielZein.")
           .queue();
     }
 
     if (messageContent.contains("normal")) {
-      event.getChannel().sendMessage("E o gay?").queue();
+      String[] responses = {
+          "Mas e o gay?",
+          "Entendi, mas e o gay?",
+          "Legal, mas e o gay?",
+          "Interessante, mas e o gay?",
+          "Ok, mas e o gay?",
+          "Certo certo, mas e o gay?",
+          "Sei, mas e o gay?"
+      };
+      int idx = ThreadLocalRandom.current().nextInt(responses.length);
+      event.getChannel().sendMessage(responses[idx]).queue();
     }
   }
 }
