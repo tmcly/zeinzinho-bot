@@ -178,48 +178,6 @@ classDiagram
     LinkConverterRegistry --> LinkConverterStrategy : uses
 ```
 
-## 🔄 Processo de Seleção da Strategy
-
-```mermaid
-flowchart TD
-    START([🚀 URL Recebida]) --> REGISTRY{📚 LinkConverterRegistry<br/>findStrategy()}
-
-    REGISTRY --> CHECK1{🐦 Twitter<br/>canHandle()?}
-    CHECK1 -->|❌ false| CHECK2{📰 Reddit<br/>canHandle()?}
-    CHECK1 -->|✅ true| USE1[🐦 TwitterLinkConverter<br/>twitter.com → fxtwitter.com]
-
-    CHECK2 -->|❌ false| CHECK3{📸 Instagram<br/>canHandle()?}
-    CHECK2 -->|✅ true| USE2[📰 RedditLinkConverter<br/>reddit.com → rxddit.com]
-
-    CHECK3 -->|❌ false| CHECK4{📺 YouTube<br/>canHandle()?}
-    CHECK3 -->|✅ true| USE3[📸 InstagramLinkConverter<br/>instagram.com → ddinstagram.com]
-
-    CHECK4 -->|❌ false| CHECK5{🎵 TikTok<br/>canHandle()?}
-    CHECK4 -->|✅ true| USE4[📺 YouTubeLinkConverter<br/>youtube.com → koutube.com]
-
-    CHECK5 -->|❌ false| ERROR[❌ IllegalArgumentException<br/>URL não suportada]
-    CHECK5 -->|✅ true| USE5[🎵 TikTokLinkConverter<br/>tiktok.com → vxtiktok.com]
-
-    USE1 --> RESULT[📦 LinkPrefixModel]
-    USE2 --> RESULT
-    USE3 --> RESULT
-    USE4 --> RESULT
-    USE5 --> RESULT
-
-    RESULT --> RESPONSE[📤 Resposta ao Discord]
-    ERROR --> EPHEMERAL[🔒 Mensagem ephemeral<br/>só para o usuário]
-
-    classDef successClass fill:#c8e6c9
-    classDef errorClass fill:#ffcdd2
-    classDef processClass fill:#e1f5fe
-    classDef decisionClass fill:#fff3e0
-
-    class USE1,USE2,USE3,USE4,USE5,RESULT,RESPONSE successClass
-    class ERROR,EPHEMERAL errorClass
-    class START,REGISTRY processClass
-    class CHECK1,CHECK2,CHECK3,CHECK4,CHECK5 decisionClass
-```
-
 ## 📊 Conversões Suportadas
 
 ```mermaid
@@ -290,34 +248,6 @@ mindmap
       Liskov Substitution
       Interface Segregation
       Dependency Inversion
-```
-
-## 📈 Benefícios da Arquitetura
-
-```mermaid
-graph TD
-    subgraph "✅ Benefícios"
-        EXTENSIBLE[🔧 Extensível<br/>Nova plataforma = Nova Strategy]
-        TESTABLE[🧪 Testável<br/>Cada strategy isolada]
-        MAINTAINABLE[🔨 Manutenível<br/>Mudanças localizadas]
-        SCALABLE[📈 Escalável<br/>Adicionar sem quebrar]
-        SOLID[🎯 SOLID<br/>Princípios bem aplicados]
-        CLEAN[🧹 Clean Code<br/>Código limpo e legível]
-    end
-
-    subgraph "🚀 Resultados"
-        FAST_DEV[⚡ Desenvolvimento Rápido]
-        EASY_DEBUG[🐛 Debug Facilitado]
-        TEAM_FRIENDLY[👥 Amigável para Equipe]
-        FUTURE_PROOF[🔮 À prova de Futuro]
-    end
-
-    EXTENSIBLE --> FAST_DEV
-    TESTABLE --> EASY_DEBUG
-    MAINTAINABLE --> TEAM_FRIENDLY
-    SCALABLE --> FUTURE_PROOF
-    SOLID --> FAST_DEV
-    CLEAN --> TEAM_FRIENDLY
 ```
 
 ---

@@ -1,39 +1,43 @@
 package com.zeinzinho.zeinzinho_bot.utils;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+/**
+ * General URL utilities that don't belong to specific strategies.
+ * Keeps only platform-agnostic URL operations.
+ */
 public class UrlUtils {
 
-  // Pattern para detectar links do Twitter/X
-  private static final Pattern TWITTER_URL_PATTERN = Pattern.compile(
-      "https?://(?:www\\.)?(?:twitter\\.com|x\\.com)/([\\w]+)/status/(\\d+)");
-
   /**
-   * Converte um link do Twitter/X para o formato fxtwitter
+   * Validates if a string is a valid URL format.
    * 
-   * @param originalUrl URL original do Twitter/X
-   * @return URL convertida para fxtwitter, ou null se não for um link válido
+   * @param url the URL to validate
+   * @return true if valid URL format
    */
-  public static String convertToFxTwitter(String url) {
-    if (url == null)
-      return null;
-    if (url.startsWith("https://twitter.com/")) {
-      return url.replace("https://twitter.com/", "https://fxtwitter.com/");
+  public static boolean isValidUrl(String url) {
+    if (url == null || url.trim().isEmpty()) {
+      return false;
     }
-    if (url.startsWith("https://x.com/")) {
-      return url.replace("https://x.com/", "https://fxtwitter.com/");
-    }
-    return null;
+    return url.startsWith("http://") || url.startsWith("https://");
   }
 
   /**
-   * Verifica se uma URL é de um tweet do Twitter/X
+   * Extracts domain from URL.
    * 
-   * @param url URL para verificar
-   * @return true se for um link de tweet válido
+   * @param url the URL to extract domain from
+   * @return domain or null if invalid
    */
-  public static boolean isTwitterStatusUrl(String url) {
-    return TWITTER_URL_PATTERN.matcher(url).matches();
+  public static String extractDomain(String url) {
+    if (!isValidUrl(url)) {
+      return null;
+    }
+
+    try {
+      String domain = url.replace("https://", "").replace("http://", "");
+      if (domain.contains("/")) {
+        domain = domain.substring(0, domain.indexOf("/"));
+      }
+      return domain;
+    } catch (Exception e) {
+      return null;
+    }
   }
 }
