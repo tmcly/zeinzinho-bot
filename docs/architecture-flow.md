@@ -27,6 +27,7 @@ graph TB
         TIKTOK[🎵 TikTokLinkConverter]
         INSTAGRAM[📸 InstagramLinkConverter]
         YOUTUBE[📺 YouTubeLinkConverter]
+        FACEBOOK[📘 FacebookLinkConverter]
     end
 
     subgraph "🔧 Infrastructure Layer"
@@ -45,6 +46,7 @@ graph TB
     STRATEGY_INTERFACE --> TIKTOK
     STRATEGY_INTERFACE --> INSTAGRAM
     STRATEGY_INTERFACE --> YOUTUBE
+    STRATEGY_INTERFACE --> FACEBOOK
     CONFIG --> JDA
     JDA --> DISCORD
 

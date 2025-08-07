@@ -1,6 +1,6 @@
 package com.zeinzinho.zeinzinho_bot.domain.service.strategy;
 
-import com.zeinzinho.zeinzinho_bot.domain.model.LinkPrefixModel;
+import com.zeinzinho.zeinzinho_bot.domain.model.ConvertedLink;
 
 /**
  * Strategy interface for link conversion implementations.
@@ -20,10 +20,10 @@ public interface LinkConverterStrategy {
    * Converts the URL to embed-friendly format.
    * 
    * @param originalUrl the original URL to convert
-   * @return LinkPrefixModel with original and converted URLs
+   * @return ConvertedLink with original and converted URLs
    * @throws IllegalArgumentException if URL cannot be converted
    */
-  LinkPrefixModel convert(String originalUrl);
+  ConvertedLink convert(String originalUrl);
 
   /**
    * Gets the platform name this strategy handles.

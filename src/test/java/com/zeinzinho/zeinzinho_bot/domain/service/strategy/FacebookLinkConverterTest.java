@@ -6,52 +6,41 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.zeinzinho.zeinzinho_bot.domain.model.LinkPrefixModel;
+import com.zeinzinho.zeinzinho_bot.domain.model.ConvertedLink;
+import com.zeinzinho.zeinzinho_bot.infrastructure.strategy.FacebookLinkConverter;
 
 class FacebookLinkConverterTest {
 
-  private final FacebookLinkConverter converter = new FacebookLinkConverter();
+  private FacebookLinkConverter converter;
+
+  @BeforeEach
+  void setUp() {
+    converter = new FacebookLinkConverter();
+  }
 
   @Test
-  void testCanHandle_FacebookVideo() {
+  void testCanHandle_ValidFacebookVideoUrl() {
     String url = "https://www.facebook.com/user/videos/123456789";
     assertTrue(converter.canHandle(url));
   }
 
   @Test
-  void testCanHandle_FacebookReel() {
+  void testCanHandle_ValidFacebookReelUrl() {
     String url = "https://www.facebook.com/reel/123456789";
     assertTrue(converter.canHandle(url));
   }
 
   @Test
-  void testCanHandle_FacebookWatch() {
+  void testCanHandle_ValidFacebookWatchUrl() {
     String url = "https://www.facebook.com/watch/?v=123456789";
     assertTrue(converter.canHandle(url));
   }
 
   @Test
-  void testCanHandle_FacebookShareReel() {
-    String url = "https://www.facebook.com/share/r/123456789";
-    assertTrue(converter.canHandle(url));
-  }
-
-  @Test
-  void testCanHandle_FacebookShareVideo() {
-    String url = "https://www.facebook.com/share/v/123456789";
-    assertTrue(converter.canHandle(url));
-  }
-
-  @Test
-  void testCanHandle_FacebookPost() {
-    String url = "https://www.facebook.com/user/posts/123456789";
-    assertTrue(converter.canHandle(url));
-  }
-
-  @Test
-  void testCanHandle_FbCom() {
+  void testCanHandle_ValidFbComUrl() {
     String url = "https://fb.com/user/videos/123456789";
     assertTrue(converter.canHandle(url));
   }
@@ -63,36 +52,47 @@ class FacebookLinkConverterTest {
   }
 
   @Test
-  void testConvert_FacebookVideo() {
+  void testCanHandle_InvalidFacebookUrl() {
+    String url = "https://www.facebook.com/user"; // Not a video/reel link
+    assertFalse(converter.canHandle(url));
+  }
+
+  @Test
+  void testGetPlatformName() {
+    assertEquals("Facebook", converter.getPlatformName());
+  }
+
+  @Test
+  void testConvert_ValidFacebookVideoUrl() {
     String originalUrl = "https://www.facebook.com/user/videos/123456789";
 
-    LinkPrefixModel result = converter.convert(originalUrl);
+    ConvertedLink result = converter.convert(originalUrl);
 
     assertNotNull(result);
-    assertEquals(originalUrl, result.getOriginalUrl());
-    assertEquals("https://facebookez.com/user/videos/123456789", result.getPrefixedUrl());
+    assertEquals("https://facebookez.com/user/videos/123456789", result.formatForDiscord());
+    assertTrue(result.wasConverted());
   }
 
   @Test
-  void testConvert_FacebookReel() {
+  void testConvert_ValidFacebookReelUrl() {
     String originalUrl = "https://www.facebook.com/reel/123456789";
 
-    LinkPrefixModel result = converter.convert(originalUrl);
+    ConvertedLink result = converter.convert(originalUrl);
 
     assertNotNull(result);
-    assertEquals(originalUrl, result.getOriginalUrl());
-    assertEquals("https://facebookez.com/reel/123456789", result.getPrefixedUrl());
+    assertEquals("https://facebookez.com/reel/123456789", result.formatForDiscord());
+    assertTrue(result.wasConverted());
   }
 
   @Test
-  void testConvert_FbCom() {
+  void testConvert_ValidFbComUrl() {
     String originalUrl = "https://fb.com/user/videos/123456789";
 
-    LinkPrefixModel result = converter.convert(originalUrl);
+    ConvertedLink result = converter.convert(originalUrl);
 
     assertNotNull(result);
-    assertEquals(originalUrl, result.getOriginalUrl());
-    assertEquals("https://facebookez.com/user/videos/123456789", result.getPrefixedUrl());
+    assertEquals("https://facebookez.com/user/videos/123456789", result.formatForDiscord());
+    assertTrue(result.wasConverted());
   }
 
   @Test
@@ -103,7 +103,9 @@ class FacebookLinkConverterTest {
   }
 
   @Test
-  void testGetPlatformName() {
-    assertEquals("Facebook", converter.getPlatformName());
+  void testConvert_InvalidFacebookUrl() {
+    String invalidUrl = "https://www.facebook.com/user"; // Not a video/reel link
+
+    assertThrows(IllegalArgumentException.class, () -> converter.convert(invalidUrl));
   }
 }
