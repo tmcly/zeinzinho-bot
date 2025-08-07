@@ -1,6 +1,7 @@
-package com.zeinzinho.zeinzinho_bot.domain.service.strategy;
+package com.zeinzinho.zeinzinho_bot.infrastructure.strategy;
 
-import com.zeinzinho.zeinzinho_bot.domain.model.LinkPrefixModel;
+import com.zeinzinho.zeinzinho_bot.domain.model.ConvertedLink;
+import com.zeinzinho.zeinzinho_bot.domain.service.strategy.LinkConverterStrategy;
 import org.springframework.stereotype.Component;
 import java.util.regex.Pattern;
 
@@ -13,6 +14,8 @@ import java.util.regex.Pattern;
  * This is a limitation of Facebook's platform, not our implementation.
  * 
  * Applies Strategy Pattern and Single Responsibility Principle.
+ * Located in infrastructure layer as it contains framework-specific
+ * annotations.
  */
 @Component
 public class FacebookLinkConverter implements LinkConverterStrategy {
@@ -26,7 +29,7 @@ public class FacebookLinkConverter implements LinkConverterStrategy {
   }
 
   @Override
-  public LinkPrefixModel convert(String originalUrl) {
+  public ConvertedLink convert(String originalUrl) {
     if (!canHandle(originalUrl)) {
       throw new IllegalArgumentException("URL is not a valid Facebook video/reel link: " + originalUrl);
     }
@@ -37,7 +40,7 @@ public class FacebookLinkConverter implements LinkConverterStrategy {
         .replace("https://www.fb.com", "https://facebookez.com")
         .replace("https://fb.com", "https://facebookez.com");
 
-    return new LinkPrefixModel(originalUrl, prefixedUrl);
+    return new ConvertedLink(originalUrl, prefixedUrl);
   }
 
   @Override

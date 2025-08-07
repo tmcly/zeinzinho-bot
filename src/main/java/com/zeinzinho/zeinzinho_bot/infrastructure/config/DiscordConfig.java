@@ -36,7 +36,7 @@ public class DiscordConfig {
 
     try {
       discordJdaClient.awaitReady();
-      discordJdaClient.getGuildById("377206458699481090")
+      discordJdaClient.getGuildById("764636649506078730")
           .updateCommands()
           .addCommands(
               Commands.slash("prefix", "Convert links to embed format")
