@@ -6,17 +6,19 @@ import org.springframework.stereotype.Component;
 import java.util.regex.Pattern;
 
 /**
- * Strategy for converting Instagram links to ddinstagram format for better embeds in Discord.
+ * Strategy for converting Instagram links to ddinstagram format for better
+ * embeds in Discord.
  * Uses ddinstagram.com which provides enhanced previews for Instagram posts.
  * 
  * Applies Strategy Pattern and Single Responsibility Principle.
- * Located in infrastructure layer as it contains framework-specific annotations.
+ * Located in infrastructure layer as it contains framework-specific
+ * annotations.
  */
 @Component
 public class InstagramLinkConverter implements LinkConverterStrategy {
 
   private static final Pattern INSTAGRAM_PATTERN = Pattern.compile(
-      "https?://(www\\.)?instagram\\.com/(p|reel|tv)/[A-Za-z0-9_-]+/?.*");
+      "https?://(www\\.)?instagram\\.com/(p|reels?|tv)/[A-Za-z0-9_-]+/?.*");
 
   @Override
   public boolean canHandle(String url) {
