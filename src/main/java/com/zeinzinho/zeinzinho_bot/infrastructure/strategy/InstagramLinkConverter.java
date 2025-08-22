@@ -32,10 +32,10 @@ public class InstagramLinkConverter implements LinkConverterStrategy {
     }
 
     String prefixedUrl = originalUrl
-        .replace("https://www.instagram.com", "https://ddinstagram.com")
-        .replace("https://instagram.com", "https://ddinstagram.com")
-        .replace("http://www.instagram.com", "https://ddinstagram.com")
-        .replace("http://instagram.com", "https://ddinstagram.com");
+        .replace("https://www.instagram.com", "https://instagramez.com")
+        .replace("https://instagram.com", "https://instagramez.com")
+        .replace("http://www.instagram.com", "https://instagramez.com")
+        .replace("http://instagram.com", "https://instagramez.com");
 
     return new ConvertedLink(originalUrl, prefixedUrl);
   }
