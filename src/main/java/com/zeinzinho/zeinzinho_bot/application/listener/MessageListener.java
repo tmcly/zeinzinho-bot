@@ -42,11 +42,14 @@ public class MessageListener extends ListenerAdapter {
           .queue();
     }
 
-    if (messageContent.equalsIgnoreCase("é verdade isso?")
-        || messageContent.equalsIgnoreCase("é verdade essa informação?")) {
-      String randomResponse = truthResponses.get(random.nextInt(truthResponses.size()));
-      String mentionUser = event.getAuthor().getAsMention();
-      event.getChannel().sendMessage(mentionUser + " " + randomResponse).queue();
+    // Responde às perguntas de verdade apenas quando o bot for mencionado
+    if (event.getMessage().getMentions().isMentioned(event.getJDA().getSelfUser())) {
+      String cleanMessage = messageContent.replaceAll("<@!?\\d+>", "").trim();
+      if (cleanMessage.equalsIgnoreCase("é verdade isso?") || cleanMessage.equalsIgnoreCase("é verdade essa informação?")) {
+        String randomResponse = truthResponses.get(random.nextInt(truthResponses.size()));
+        String mentionUser = event.getAuthor().getAsMention();
+        event.getChannel().sendMessage(mentionUser + " " + randomResponse).queue();
+      }
     }
   }
 }
