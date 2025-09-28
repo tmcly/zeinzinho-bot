@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 import java.util.regex.Pattern;
 
 /**
- * Strategy for converting Instagram links to ddinstagram format for better
+ * Strategy for converting Instagram links to kkinstagram format for better
  * embeds in Discord.
- * Uses ddinstagram.com which provides enhanced previews for Instagram posts.
+ * Uses kkinstagram.com which provides enhanced previews for Instagram posts.
  * 
  * Applies Strategy Pattern and Single Responsibility Principle.
  * Located in infrastructure layer as it contains framework-specific
@@ -32,10 +32,10 @@ public class InstagramLinkConverter implements LinkConverterStrategy {
     }
 
     String prefixedUrl = originalUrl
-        .replace("https://www.instagram.com", "https://g.embedez.com")
-        .replace("https://instagram.com", "https://g.embedez.com")
-        .replace("http://www.instagram.com", "https://g.embedez.com")
-        .replace("http://instagram.com", "https://g.embedez.com");
+        .replace("https://www.instagram.com", "https://kkinstagram.com")
+        .replace("https://instagram.com", "https://kkinstagram.com")
+        .replace("http://www.instagram.com", "https://kkinstagram.com")
+        .replace("http://instagram.com", "https://kkinstagram.com");
 
     return new ConvertedLink(originalUrl, prefixedUrl);
   }
